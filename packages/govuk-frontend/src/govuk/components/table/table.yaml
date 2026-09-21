@@ -66,9 +66,9 @@ params:
         required: false
         description: HTML attributes (for example data attributes) to add to the table cell.
   - name: caption
-    type: object
+    type: string or object
     required: false
-    description: Caption for the table, supporting HTML when passed as an object. Backwards compatibility is preserved for a plain string caption.
+    description: Caption for the table. You can pass a string, or an object containing `text` or `html`.
     params:
       - name: text
         type: string
