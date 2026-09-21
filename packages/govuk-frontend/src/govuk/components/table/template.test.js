@@ -25,11 +25,79 @@ describe('Table', () => {
   // =========================================================
 
   describe('captions', () => {
-    it('can have custom text', () => {
+    it('can have custom text when passed as a string', () => {
       const $ = render('table', examples['with head and caption'])
       const $caption = $('.govuk-table__caption')
 
       expect($caption.text()).toBe('Caption 1: Months and rates')
+    })
+
+    it('has HTML escaped when passed as a string', () => {
+      const $ = render('table', {
+        context: {
+          caption:
+            'Caption <script>hacking.do(1337)</script>: Months and rates',
+          rows: [[{ text: 'Jan' }, { text: 'Feb' }]]
+        }
+      })
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption.html()).toBe(
+        'Caption &lt;script&gt;hacking.do(1337)&lt;/script&gt;: Months and rates'
+      )
+    })
+
+    it('allows HTML when passed as HTML', () => {
+      const $ = render('table', examples['caption html'])
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption.html()).toBe('Caption <span>1</span>: Months and rates')
+    })
+
+    it('has HTML escaped when passed as text', () => {
+      const $ = render('table', examples['caption html as text'])
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption.html()).toBe(
+        'Caption &lt;script&gt;hacking.do(1337)&lt;/script&gt;: Months and rates'
+      )
+    })
+
+    it('prefers HTML over text when both are provided', () => {
+      const $ = render('table', examples['caption with html and text'])
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption.html()).toBe('Caption <span>1</span>: Months and rates')
+    })
+
+    it('prefers HTML over text when HTML is an empty string', () => {
+      const $ = render('table', {
+        context: {
+          caption: {
+            html: '',
+            text: 'Caption 1: Months and rates'
+          },
+          rows: [[{ text: 'Jan' }, { text: 'Feb' }]]
+        }
+      })
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption.text()).toBe('')
+    })
+
+    it('renders a caption when HTML is an empty string', () => {
+      const $ = render('table', {
+        context: {
+          caption: {
+            html: ''
+          },
+          rows: [[{ text: 'Jan' }, { text: 'Feb' }]]
+        }
+      })
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption).toHaveLength(1)
+      expect($caption.text()).toBe('')
     })
 
     it('can have additional classes', () => {

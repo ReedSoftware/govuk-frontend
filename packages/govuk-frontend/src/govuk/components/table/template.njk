@@ -3,10 +3,16 @@
 <table class="govuk-table
   {%- if params.classes %} {{ params.classes }}{% endif %}"
   {{- govukAttributes(params.attributes) }}>
-{% if params.caption %}
+{% if params.caption is mapping or params.caption %}
   <caption class="govuk-table__caption
     {%- if params.captionClasses %} {{ params.captionClasses }}{% endif %}">
-    {{- params.caption -}}
+    {%- if params.caption is mapping and params.caption.html is defined -%}
+      {{- params.caption.html | safe -}}
+    {%- elif params.caption is mapping and params.caption.text is defined -%}
+      {{- params.caption.text -}}
+    {%- else -%}
+      {{- params.caption -}}
+    {%- endif -%}
   </caption>
 {% endif %}
 {% if params.head %}
