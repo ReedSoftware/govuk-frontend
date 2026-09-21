@@ -85,6 +85,21 @@ describe('Table', () => {
       expect($caption.text()).toBe('')
     })
 
+    it('renders a caption when HTML is an empty string', () => {
+      const $ = render('table', {
+        context: {
+          caption: {
+            html: ''
+          },
+          rows: [[{ text: 'Jan' }, { text: 'Feb' }]]
+        }
+      })
+      const $caption = $('.govuk-table__caption')
+
+      expect($caption).toHaveLength(1)
+      expect($caption.text()).toBe('')
+    })
+
     it('can have additional classes', () => {
       const $ = render('table', examples['with head and caption'])
       const $caption = $('.govuk-table__caption')
