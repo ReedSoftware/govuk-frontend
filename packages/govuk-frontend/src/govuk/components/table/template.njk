@@ -3,7 +3,7 @@
 <table class="govuk-table
   {%- if params.classes %} {{ params.classes }}{% endif %}"
   {{- govukAttributes(params.attributes) }}>
-{% if (params.caption is mapping and (params.caption.html is defined or params.caption.text is defined)) or params.caption %}
+{% if params.caption is mapping or params.caption %}
   <caption class="govuk-table__caption
     {%- if params.captionClasses %} {{ params.captionClasses }}{% endif %}">
     {%- if params.caption is mapping and params.caption.html is defined -%}
