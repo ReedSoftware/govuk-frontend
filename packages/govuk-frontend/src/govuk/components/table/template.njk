@@ -6,7 +6,7 @@
 {% if params.caption %}
   <caption class="govuk-table__caption
     {%- if params.captionClasses %} {{ params.captionClasses }}{% endif %}">
-    {{- params.caption -}}
+    {{- params.caption.html | safe if params.caption.html else (params.caption.text if params.caption.text else params.caption) -}}
   </caption>
 {% endif %}
 {% if params.head %}

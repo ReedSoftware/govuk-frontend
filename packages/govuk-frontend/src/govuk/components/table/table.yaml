@@ -66,9 +66,18 @@ params:
         required: false
         description: HTML attributes (for example data attributes) to add to the table cell.
   - name: caption
-    type: string
+    type: object
     required: false
-    description: Caption text.
+    description: Caption for the table, supporting HTML when passed as an object. Backwards compatibility is preserved for a plain string caption.
+    params:
+      - name: text
+        type: string
+        required: false
+        description: If `html` is set, this is not required. Text for the table caption. If `html` is provided, the `text` option will be ignored.
+      - name: html
+        type: string
+        required: false
+        description: If `text` is set, this is not required. HTML for the table caption. If `html` is provided, the `text` option will be ignored.
   - name: captionClasses
     type: string
     required: false
@@ -187,6 +196,31 @@ examples:
         - html: Foo <span>bar</span>
       rows:
         - - html: Foo <span>bar</span>
+  - name: caption html
+    hidden: true
+    options:
+      caption:
+        html: 'Caption <span>1</span>: Months and rates'
+      rows:
+        - - text: Jan
+          - text: Feb
+  - name: caption html as text
+    hidden: true
+    options:
+      caption:
+        text: 'Caption <script>hacking.do(1337)</script>: Months and rates'
+      rows:
+        - - text: Jan
+          - text: Feb
+  - name: caption with html and text
+    hidden: true
+    options:
+      caption:
+        html: 'Caption <span>1</span>: Months and rates'
+        text: 'Caption 1: Months and rates'
+      rows:
+        - - text: Jan
+          - text: Feb
   - name: head with classes
     hidden: true
     options:
